@@ -54,5 +54,145 @@
 
 ![image-20250427232726478](.\image\image-20250427232726478.png)
 
-## 
+## 创建微服务项目
 
+- 创建微服务架构项目
+- 引入SpringCloud、SpringCloudAlibaba相关依赖。【注意版本依赖】
+
+版本选择：
+
+- SpringBoot：3.3.4
+- SpringCloud：2023.0.3
+- SpringCloudAlibaba：2023.0.3.2
+- Nacos：2.4.3
+- Sentinel：1.8.8
+- Seata：2.2.0
+
+
+
+
+
+![image-20250428200033762](image\note.md)
+
+![image-20250428200103703](image\image-20250428200103703.png)
+
+# Nacos
+
+注册中心，服务注册和服务发现的功能：微服务和节点列表。
+
+**Nacos** /nɑ:kəʊs/ 是 Dynamic Naming and **Co**nfiguration **S**ervice的首字母简称，一个更易于构建云原生应用的动态服务发现、配置管理和服务管理平台。
+
+https://nacos.io/zh-cn/docs/v2/quickstart/quick-start.html
+
+- 下载安装包【2.4.3】
+- 启动命令： startup.cmd -m standalone 【单机模式启动】
+
+localhost:8848/nacos
+
+## 服务注册
+
+步骤1 
+
+- 启动微服务 
+
+- SpringBoot 微服务web项目启动
+
+步骤2 
+
+- 引入服务发现依赖 
+
+**spring-cloud-starter-alibaba-nacos-discovery**
+
+
+
+步骤3 
+
+- 配置Nacos地址 
+
+**spring.cloud.nacos.server-addr=127.0.0.1:8848**
+
+
+
+步骤4 
+
+- 查看注册中心效果 
+
+- 访问 http://localhost:8848/nacos
+
+
+
+步骤5 
+
+- 集群模式启动测试 
+
+- 单机情况下通过改变端口模拟微服务集群
+
+## 服务发现
+
+步骤1 开启服务发现功能  **@EnableDiscoveryClient**
+
+步骤2  测试服务发现API  DiscoveryClient 【能获取到服务】
+
+步骤3  测试服务发现API  NacosServiceDiscovery【Nacos特有的】
+
+
+
+获取服务 与 实例。
+
+```java
+package com.atguigu.product;
+
+
+import com.alibaba.cloud.nacos.discovery.NacosServiceDiscovery;
+import com.alibaba.nacos.api.exception.NacosException;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
+
+import java.util.List;
+
+@SpringBootTest
+public class DiscoveryTest {
+
+
+
+    @Autowired
+    DiscoveryClient discoveryClient;
+
+    @Autowired
+    NacosServiceDiscovery nacosServiceDiscovery;
+
+
+    @Test
+    void  nacosServiceDiscoveryTest() throws NacosException {
+        for (String service : nacosServiceDiscovery.getServices()) {
+            System.out.println("service = " + service);
+            List<ServiceInstance> instances = nacosServiceDiscovery.getInstances(service);
+            for (ServiceInstance instance : instances) {
+                System.out.println("ip："+instance.getHost()+"；"+"port = " + instance.getPort());
+            }
+        }
+    }
+
+    @Test
+    void discoveryClientTest(){
+        for (String service : discoveryClient.getServices()) {
+            System.out.println("service = " + service);
+            //获取ip+port
+            List<ServiceInstance> instances = discoveryClient.getInstances(service);
+            for (ServiceInstance instance : instances) {
+                System.out.println("ip："+instance.getHost()+"；"+"port = " + instance.getPort());
+            }
+        }
+    }
+}
+
+```
+
+## 编写微服务API
+
+![image-20250428211749653](image\image-20250428211749653.png)
+
+![image-20250428211832536](image\image-20250428211832536.png)
