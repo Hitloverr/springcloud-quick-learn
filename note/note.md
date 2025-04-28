@@ -196,3 +196,34 @@ public class DiscoveryTest {
 ![image-20250428211749653](image\image-20250428211749653.png)
 
 ![image-20250428211832536](image\image-20250428211832536.png)
+
+远程调用基本实现：
+
+```java
+  private Product getProductFromRemote(Long productId){
+        //1、获取到商品服务所在的所有机器IP+port
+        List<ServiceInstance> instances = discoveryClient.getInstances("service-product");
+        ServiceInstance instance = instances.get(0);
+        //远程URL
+        String url = "http://"+instance.getHost() +":" +instance.getPort() +"/product/"+productId;
+        log.info("远程请求：{}",url);
+        //2、给远程发送请求
+        Product product = restTemplate.getForObject(url, Product.class);
+        return product;
+    }
+```
+
+
+
+
+
+步骤1 引入负载均衡依赖 spring-cloud-starter-loadbalancer
+
+步骤2 测试负载均衡API LoadBalancerClient
+
+步骤3 测试远程调用 RestTemplate
+
+步骤4 测试负载均衡调用 @LoadBalanced
+
+
+

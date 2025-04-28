@@ -23,7 +23,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>services</module>
-        <module>services/service-product</module>
+        <module>model</module>
     </modules>
 
     <dependencyManagement>
