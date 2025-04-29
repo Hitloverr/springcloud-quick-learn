@@ -9,6 +9,7 @@ import org.example.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.example.order.bean.Order;
@@ -21,6 +22,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private DiscoveryClient discoveryClient;
+
+    @Autowired
+    private LoadBalancerClient loadBalancerClient;
 
     // 线程安全
     @Autowired
@@ -52,6 +56,19 @@ public class OrderServiceImpl implements OrderService {
         Product product = restTemplate.getForObject(url, Product.class);
         return product;
     }
+
+    private Product getProductFromRemoteWithLoadBalancer(Long productId){
+        //1、获取到商品服务所在的所有机器IP+port
+        ServiceInstance instance = loadBalancerClient.choose("service-product");
+        //远程URL
+        String url = "http://"+instance.getHost() +":" +instance.getPort() +"/product/"+productId;
+        log.info("远程请求：{}",url);
+        //2、给远程发送请求
+        Product product = restTemplate.getForObject(url, Product.class);
+        return product;
+    }
+
+
 
 
 
