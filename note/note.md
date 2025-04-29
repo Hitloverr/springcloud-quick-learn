@@ -215,7 +215,7 @@ public class DiscoveryTest {
 
 
 
-
+## 负载均衡
 
 步骤1 引入负载均衡依赖 spring-cloud-starter-loadbalancer
 
@@ -225,5 +225,40 @@ public class DiscoveryTest {
 
 步骤4 测试负载均衡调用 @LoadBalanced
 
+![image-20250429194526758](image\image-20250429194526758.png)
+
+## 配置中心
+
+![image-20250429195040941](image\image-20250429195040941.png)
+
+```java
+<dependency>
+<groupId>com.alibaba.cloud</groupId>
+<artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+</dependency>
+```
+
+```
+spring.cloud.nacos.server-addr=127.0.0.1:8848
+spring.config.import=nacos:service-order.properties
+```
+
+数据集： service-order.properties
+
+```
+order.timeout=10min
+```
+
+![image-20250429200553959](image\image-20250429200553959.png)
+
+可以再Nacos那里配置。
 
 
+
+使用步骤
+
+• @Value(“${xx}”) 获取配置 + @RefreshScope 实现自动刷新
+
+• @ConfigurationProperties 无感自动刷新
+
+• NacosConfigManager 监听配置变化
