@@ -68,6 +68,14 @@ public class OrderServiceImpl implements OrderService {
         return product;
     }
 
+    private Product getProductFromRemoteWithLoadBalancerAnno(Long productId){
+        String url = "http://service-product/product/"+productId; // 会被动态替换。
+        log.info("远程请求：{}",url);
+        //2、给远程发送请求
+        Product product = restTemplate.getForObject(url, Product.class);
+        return product;
+    }
+
 
 
 

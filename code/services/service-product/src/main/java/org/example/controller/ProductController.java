@@ -23,7 +23,7 @@ public class ProductController {
     @GetMapping("/product/{id}")
     public Product getProduct(@PathVariable("id") Long productId,
                               HttpServletRequest request){
-
+        System.out.println("hello");
         String header = request.getHeader("X-Token");
         System.out.println("hello .... token=【"+header+"】");
         Product product = productService.getProductById(productId);
