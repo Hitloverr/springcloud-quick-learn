@@ -5,10 +5,12 @@ import org.example.order.bean.Order;
 import org.example.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
+@RefreshScope
 public class OrderController {
     @Autowired
     OrderService orderService;
