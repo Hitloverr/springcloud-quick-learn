@@ -262,3 +262,69 @@ order.timeout=10min
 • @ConfigurationProperties 无感自动刷新
 
 • NacosConfigManager 监听配置变化
+
+```java
+  // 项目启动就监听配置文件变化。
+    @Bean
+    ApplicationRunner applicationRunner(NacosConfigManager nacosConfigManager) {
+        return args -> {
+            ConfigService configService = nacosConfigManager.getConfigService();
+            configService.addListener("service-order.properties", "DEFAULT_GROUP", new Listener() {
+                @Override
+                public Executor getExecutor() {
+                    return Executors.newFixedThreadPool(2);
+                }
+
+                @Override
+                public void receiveConfigInfo(String s) {
+                    System.out.println("接收到的配置信息" + s);
+                }
+            });
+        };
+    }
+```
+
+## 经典面试题
+
+思考： Nacos中的数据集 和 application.properties 有相同的 配置项，哪个生效？
+
+![image-20250501192344666](image\image-20250501192344666.png)
+
+```java
+#spring.config.import=nacos:service-order.properties,nacos:common.properties
+```
+
+service-order 的比 common优先级高。
+
+## 数据隔离-namespace
+
+• 项目有多套环境：dev，test，prod
+
+• 每个微服务，同一种配置，在每套环境的值都不一样。
+
+如：database.properties，common.properties
+
+• 项目可以通过切换环境，加载本环境的配置
+
+
+
+区分环境、微服务、配置，按需加载配置
+
+![image-20250501192846905](image\image-20250501192846905.png)
+
+![image-20250501192916031](image\image-20250501192916031.png)
+
+
+
+创建命名空间，同时新建配置的时候选择Group
+
+每个group就是一个微服务。
+
+## 数据隔离-动态切换环境
+
+
+
+
+
+## 总结
+

@@ -1,0 +1,40 @@
+server:
+  port: 8000
+spring:
+  profiles:
+    active: prod
+  application:
+    name: service-order
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+      config:
+        import-check:
+          enabled: false
+        namespace: ${spring.profiles.active:public} # 命名空间
+---
+spring:
+  config:
+    import:
+      - nacos:common.properties?group=order #dqtaset?group
+      - nacos:database.properties?group=order
+    activate: # 不同环境激活导入不同的配置
+      on-profile: dev
+---
+spring:
+  config:
+    import:
+      - nacos:common.properties?group=order
+      - nacos:database.properties?group=order
+      - nacos:haha.properties?group=order
+    activate:
+      on-profile: test
+---
+spring:
+  config:
+    import:
+      - nacos:common.properties?group=order
+      - nacos:database.properties?group=order
+      - nacos:hehe.properties?group=order
+    activate:
+      on-profile: prod
