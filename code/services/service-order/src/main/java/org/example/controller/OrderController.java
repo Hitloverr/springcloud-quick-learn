@@ -25,7 +25,7 @@ public class OrderController {
 
     //创建订单
     @GetMapping("/create")
-    @SentinelResource(value = "createOrder")
+    @SentinelResource(value = "createOrder",blockHandler = "createOrderFallback")  // 限流就返回方法里面的
     public Order createOrder(@RequestParam("userId") Long userId,
                              @RequestParam("productId") Long productId) {
         Order order = orderService.createOrder(productId, userId);
@@ -35,6 +35,10 @@ public class OrderController {
     @GetMapping("/timeout")
     public String getOrderTimeout() {
         return orderTimeout;
+    }
+
+    private Order createOrderFallback(){
+        return new Order();
     }
 
 }

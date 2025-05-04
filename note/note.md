@@ -463,3 +463,9 @@ service-order 的比 common优先级高。
 
 流控规则，QPS
 
+## 异常处理
+
+![image-20250504153121151](D:\code\springcloud-quick-learn\note\image\image-20250504153121151.png)
+
+SphU.entry 如果触发流控，就会抛出异常。
+
