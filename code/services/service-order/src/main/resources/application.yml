@@ -3,6 +3,7 @@ server:
 spring:
   profiles:
     active: prod
+    include: feign
   application:
     name: service-order
   cloud:
