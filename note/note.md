@@ -567,7 +567,7 @@ SphU.entry("resourceName"), 捕获bloackException
 
 需求三：
 
-![image-20250504163832823](D:\code\springcloud-quick-learn\note\image\image-20250504163832823.png)
+![image-20250504163832823](image\image-20250504163832823.png)
 
 ## 补充，fallback与blockhandler
 
@@ -578,3 +578,17 @@ fallBack能处理自己的业务异常，fallbacl的函数里面传throwable
 ## 总结
 
 规则持久化？结合Nacos、MySQL持久化。
+
+# Gateway
+
+![image-20250504202531532](image\image-20250504202531532.png)
+
+![image-20250504202553570](image\image-20250504202553570.png)
+
+1. 客户端发送 /api/order/** 转到 service-order
+
+2. 客户端发送 /api/product/** 转到 service-product
+
+3. 以上转发有负载均衡效果
+
+![image-20250504202628790](image\image-20250504202628790.png)
