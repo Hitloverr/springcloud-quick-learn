@@ -1,9 +1,9 @@
 spring:
   cloud:
     gateway:
-      globalcors:
+      globalcors: # 跨域问题
         cors-configurations:
-          '[/**]':
+          '[/**]': # 所有请求
             allowed-origin-patterns: '*'
             allowed-headers: '*'
             allowed-methods: '*'
@@ -34,7 +34,7 @@ spring:
               args:
                 patterns: /api/order/**
                 matchTrailingSlash: true # 是否匹配多一个/
-          filters:
+          filters: # 过滤器
             - RewritePath=/api/order/?(?<segment>.*), /$\{segment}
             - OnceToken=X-Response-Token, jwt
           order: 1 # 数字越小优先级越高。
@@ -45,5 +45,5 @@ spring:
           filters:
             - RewritePath=/api/product/?(?<segment>.*), /$\{segment}
           order: 2
-      default-filters:
-        - AddResponseHeader=X-Response-Abc, 123
+      default-filters: # 默认过滤器
+        - AddResponseHeader=X-Response-Abc, 123 # 加响应头
