@@ -14,4 +14,6 @@ spring:
 #            retryer: feign.retryer.default
 #            request-interceptors:
 #             - org.example.order.interceptor.XTokenRequestInterceptor
-#
+feign:
+  sentinel:
+    enabled: true

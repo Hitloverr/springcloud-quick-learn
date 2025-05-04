@@ -21,7 +21,7 @@ public class OrderServiceConfig {
         return Logger.Level.FULL;
     }
 
-    @Bean
+//    @Bean
     public Retryer retryer() {
         return new Retryer.Default();
     }
