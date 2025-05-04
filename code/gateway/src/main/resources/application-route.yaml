@@ -15,12 +15,12 @@ spring:
             - name: Path
               args:
                 patterns: /search
-            - name: Query
+            - name: Query # 带指定参数
               args:
                 param: q
                 regexp: haha
             #            - Vip=user,leifengyang
-            - name: Vip
+            - name: Vip # VipRoutePredicateFactory
               args:
                 param: user
                 value: leifengyang
@@ -33,7 +33,7 @@ spring:
             - name: Path
               args:
                 patterns: /api/order/**
-                matchTrailingSlash: true
+                matchTrailingSlash: true # 是否匹配多一个/
           filters:
             - RewritePath=/api/order/?(?<segment>.*), /$\{segment}
             - OnceToken=X-Response-Token, jwt
@@ -41,7 +41,7 @@ spring:
         - id: product-route
           uri: lb://service-product
           predicates:
-            - Path=/api/product/**
+            - Path=/api/product/** # 短写法
           filters:
             - RewritePath=/api/product/?(?<segment>.*), /$\{segment}
           order: 2
