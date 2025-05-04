@@ -591,4 +591,104 @@ fallBack能处理自己的业务异常，fallbacl的函数里面传throwable
 
 3. 以上转发有负载均衡效果
 
+## 原理
+
 ![image-20250504202628790](image\image-20250504202628790.png)
+
+
+
+## 断言
+
+![image-20250504204108185](image\image-20250504204108185.png)
+
+只要有一个匹配到了，就不会继续往下走了。规则的顺序很重要。
+
+断言工厂，PathRouterPredicateFactory
+
+
+
+## 过滤器
+
+![image-20250504205531394](image\image-20250504205531394.png)
+
+![image-20250504205711074](image\image-20250504205711074.png)
+
+## 总结
+
+![image-20250504210942344](image\image-20250504210942344.png)
+
+默认是不经过网关的，除非你Feign那里写的路径是Gateway的地址。
+
+# Seata分布式事务
+
+![image-20250504211137519](image\image-20250504211137519.png)
+
+## 原理
+
+![image-20250504211228106](image\image-20250504211228106.png)
+
+## 二阶段提交协议
+
+![image-20250504211622701](image\image-20250504211622701.png)
+
+![image-20250504211643727](image\image-20250504211643727.png)
+
+![image-20250504211752782](image\image-20250504211752782.png)
+
+## 代码
+
+```java
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
+        </dependency>
+       
+    // TM最大的方法那里开启全局事务。
+    @GlobalTransactional
+```
+
+1. 启动Seata服务器。
+2. 微服务里面引入Seata客户端，指定Seata的配置
+
+```java
+ service {
+   #transaction service group mapping
+   vgroupMapping.default_tx_group = "default" # 分组
+   #only support when registry.type=file, please don't set multiple addresses
+   default.grouplist = "127.0.0.1:8091" # Seata协调者的地址
+   #degrade, current not support
+   enableDegrade = false
+   #disable seata
+   disableGlobalTransaction = false
+ }
+```
+
+![image-20250504214323981](image\image-20250504214323981.png)
+
+## 四种事务模式
+
+![image-20250504214614090](image\image-20250504214614090.png)
+
+AT模式：自动模式。
+
+XA模式：数据库的XA二阶段提交。
+
+![image-20250504214532708](image\image-20250504214532708.png)
+
+![image-20250504214558784](image\image-20250504214558784.png)
+
+TCC模式：全手动：prepare commit rollback的代码都要自己写。适合夹杂了非数据库的事务逻辑。
+
+![image-20250504214637641](image\image-20250504214637641.png)
+
+Saga模式：最终一致性，消息。长事务。
+
+- **正向流程**：按顺序执行本地事务。
+  *示例*：用户下单→订单服务创建订单（事务1）→库存服务扣减库存（事务2）。
+- **逆向补偿**：若某步骤失败，触发反向操作回滚。
+  *示例*：库存不足时，订单服务取消订单（补偿事务1）。
+
+
+
+- **优点**：无全局锁，提升系统吞吐量；适合跨服务长事务。
+- **缺点**：补偿逻辑复杂，需幂等设计；最终一致性延迟可能影响业务。
