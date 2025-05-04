@@ -510,3 +510,13 @@ SphU.entry("resourceName"), 捕获bloackException
 ![image-20250504155614033](image\image-20250504155614033.png)
 
 ![image-20250504155140471](D:\code\springcloud-quick-learn\note\image\image-20250504155140471.png)
+
+## 流控效果
+
+![image-20250504155902871](image\image-20250504155902871.png)
+
+1. 快速失败：抛出异常。
+2. warm up：超高峰流量下，到达峰值qps下，需要period时间
+3. 匀速排队：有排队，但是超时也会抛弃。
+
+![image-20250504160217094](D:\code\springcloud-quick-learn\note\image\image-20250504160217094.png)
