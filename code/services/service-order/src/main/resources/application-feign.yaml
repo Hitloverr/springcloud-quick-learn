@@ -7,7 +7,8 @@ spring:
             logger-level: full
             connect-timeout: 1000
             read-timeout: 2000
-#          service-product: 服务的名称，
-#            logger-level: full
-#            connect-timeout: 3000
-#            read-timeout: 5000
+          service-product: #服务的名称，
+            logger-level: full
+            connect-timeout: 3000
+            read-timeout: 5000
+#            retryer: feign.retryer.default
