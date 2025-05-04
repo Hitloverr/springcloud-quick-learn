@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import lombok.extern.slf4j.Slf4j;
 import org.example.feign.ProductFeignClient;
 import org.example.order.bean.Order;
@@ -24,6 +25,7 @@ public class OrderController {
 
     //创建订单
     @GetMapping("/create")
+    @SentinelResource(value = "createOrder")
     public Order createOrder(@RequestParam("userId") Long userId,
                              @RequestParam("productId") Long productId) {
         Order order = orderService.createOrder(productId, userId);
