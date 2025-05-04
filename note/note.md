@@ -517,6 +517,64 @@ SphU.entry("resourceName"), 捕获bloackException
 
 1. 快速失败：抛出异常。
 2. warm up：超高峰流量下，到达峰值qps下，需要period时间
-3. 匀速排队：有排队，但是超时也会抛弃。
+3. 匀速排队：有排队，但是超时也会抛弃异常 IOException，Connection Reset。是漏通算法。
 
 ![image-20250504160217094](D:\code\springcloud-quick-learn\note\image\image-20250504160217094.png)
+
+## 熔断降级
+
+![image-20250504160753943](image\image-20250504160753943.png)
+
+![image-20250504160814076](image\image-20250504160814076.png)
+
+规则：（在sentinel的dashboard中配置）
+
+![image-20250504162300041](image\image-20250504162300041.png)
+
+![image-20250504162909796](image\image-20250504162909796.png)
+
+另外还有异常数。
+
+
+
+![image-20250504160911589](image\image-20250504160911589.png)
+
+![image-20250504160937855](image\image-20250504160937855.png)
+
+## 热点控制
+
+更精细的限流：
+
+![image-20250504163150068](image\image-20250504163150068.png)
+
+![image-20250504163223205](image\image-20250504163223205.png)
+
+
+
+
+
+需求一：![image-20250504163516291](image\image-20250504163516291.png)
+
+如果不带这个参数，也是不会被流控的哦
+
+
+
+需求二：
+
+![image-20250504163746108](image\image-20250504163746108.png)
+
+
+
+需求三：
+
+![image-20250504163832823](D:\code\springcloud-quick-learn\note\image\image-20250504163832823.png)
+
+## 补充，fallback与blockhandler
+
+SentinelResource的blockHandler只能处理流控异常。
+
+fallBack能处理自己的业务异常，fallbacl的函数里面传throwable
+
+## 总结
+
+规则持久化？结合Nacos、MySQL持久化。
