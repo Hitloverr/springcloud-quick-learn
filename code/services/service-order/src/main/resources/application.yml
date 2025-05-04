@@ -12,6 +12,10 @@ spring:
         import-check:
           enabled: false
         namespace: ${spring.profiles.active:public} # 命名空间
+
+logging:
+  level:
+    org.example.feign: debug
 ---
 spring:
   config:
