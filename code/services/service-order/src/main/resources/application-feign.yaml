@@ -12,3 +12,6 @@ spring:
             connect-timeout: 3000
             read-timeout: 5000
 #            retryer: feign.retryer.default
+#            request-interceptors:
+#             - org.example.order.interceptor.XTokenRequestInterceptor
+#
