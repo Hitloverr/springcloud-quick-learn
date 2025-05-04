@@ -17,6 +17,7 @@ spring:
       eager: true
       transport:
         dashboard: localhost:8080
+      web-context-unify: false
 
 logging:
   level:

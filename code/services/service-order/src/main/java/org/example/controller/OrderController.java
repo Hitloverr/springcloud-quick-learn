@@ -41,4 +41,31 @@ public class OrderController {
         return new Order();
     }
 
+    @GetMapping("/seckill")
+    @SentinelResource(value = "seckill-order",fallback = "seckillFallback")
+    public Order seckill(@RequestParam(value = "userId",required = false) Long userId,
+                         @RequestParam(value = "productId",defaultValue = "1000") Long productId){
+        Order order = orderService.createOrder(productId, userId);
+
+        return order;
+    }
+
+    public Order seckillFallback(Long userId,Long productId, Throwable exception){
+        System.out.println("seckillFallback....");
+        Order order = new Order();
+
+        return order;
+    }
+
+    @GetMapping("/writeDb")
+    public String writeDb(){
+        return "writeDb success....";
+    }
+
+    @GetMapping("/readDb")
+    public String readDb(){
+        log.info("readDb...");
+        return "readDb success....";
+    }
+
 }

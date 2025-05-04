@@ -469,3 +469,44 @@ service-order 的比 common优先级高。
 
 SphU.entry 如果触发流控，就会抛出异常。
 
+
+
+远程调用添加流控：OpenFeign的兜底fallback，没有的话也是走到全局异常。
+
+
+
+SphU硬编码：
+
+```java
+SphU.entry("resourceName"), 捕获bloackException
+```
+
+## 限流规则
+
+![image-20250504154836110](image\image-20250504154836110.png)
+
+![image-20250504154855905](image\image-20250504154855905.png)
+
+![image-20250504154924622](image\image-20250504154924622.png)
+
+• QPS：
+
+   • 统计每秒请求数
+
+• 并发线程数：
+
+   • 统计并发线程数
+
+![image-20250504155106111](image\image-20250504155106111.png)
+
+链路策略：
+
+![image-20250504155351377](image\image-20250504155351377.png)
+
+关联策略：
+
+- 实现优先写。希望写的量大了之后限制读。当写的阈值到达之后才会限制读
+
+![image-20250504155614033](image\image-20250504155614033.png)
+
+![image-20250504155140471](D:\code\springcloud-quick-learn\note\image\image-20250504155140471.png)
