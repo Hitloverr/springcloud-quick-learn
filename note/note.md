@@ -417,3 +417,40 @@ service-order 的比 common优先级高。
 
 # Sentinel
 
+服务保护（限流-熔断降级）
+
+- 随着微服务的流行，服务和服务之间的稳定性变得越来越重要。Spring Cloud Alibaba Sentinel 以流量为切入点，从流量控制、流量路由、熔断降级、系统自适应过载保护、热点流量防护等多个维度保护服务的稳定性。
+
+![image-20250504152304755](image\image-20250504152304755.png)
+
+![image-20250504152321497](image\image-20250504152321497.png)
+
+定义资源：
+
+• 主流框架自动适配（Web Servlet、Dubbo、Spring Cloud、gRPC、Spring WebFlux、Reactor）；
+
+所有**Web接口均为资源**
+
+• 编程式：SphU API
+
+• 声明式：@SentinelResource
+
+
+
+定义规则：
+
+• 流量控制（FlowRule）
+
+• 熔断降级（DegradeRule）
+
+• 系统保护（SystemRule）
+
+• 来源访问控制（AuthorityRule）
+
+• 热点参数（ParamFlowRule）
+
+
+
+## 工作原理
+
+![image-20250504152432284](image\image-20250504152432284.png)
