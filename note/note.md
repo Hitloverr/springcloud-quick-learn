@@ -327,3 +327,28 @@ service-order 的比 common优先级高。
 ## 总结
 
 ![image-20250501194540335](image\image-20250501194540335.png)
+
+# OpenFeign
+
+**声明式** REST 客户端 vs **编程式** REST 客户端（RestTemplate）
+
+注解驱动
+
+• 指定远程地址：@FeignClient
+
+• 指定请求方式：@GetMapping、@PostMapping、@DeleteMapping ... 
+
+• 指定携带数据：@RequestHeader、@RequestParam、@RequestBody ... 
+
+• 指定结果返回：响应模型
+
+```java
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-openfeign</artifactId>
+</dependency>
+```
+
+![image-20250504143450598](image\image-20250504143450598.png)
+
+自动负载均衡
